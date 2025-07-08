@@ -1,0 +1,19 @@
+.activity-log {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 10px;
+  max-height: 300px;
+  overflow-y: auto;
+  font-size: 14px;
+}
+
+.activity-log ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.activity-log li {
+  margin-bottom: 10px;
+}

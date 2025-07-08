@@ -1,0 +1,35 @@
+/* === /src/styles/Dashboard.css === */
+.dashboard-container {
+  padding: 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.dashboard-section {
+  margin-top: 30px;
+}
+
+.placeholder-box {
+  background: #f1f1f1;
+  padding: 20px;
+  border-radius: 8px;
+  color: #333;
+  border: 1px dashed #999;
+}
+
+/* === /src/styles/Dashboard.css === */
+.dashboard-container {
+  padding: 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.dashboard-section {
+  margin-top: 30px;
+}
+
+.placeholder-box {
+  background: #f1f1f1;
+  padding: 20px;
+  border-radius: 8px;
+  color: #333;
+  border: 1px dashed #999;
+}
