@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './Register.css'; // Assuming you have a CSS file for styles
+import './Register.css';
 
 const Register = () => {
   const [form, setForm] = useState({ name: '', email: '', password: '' });
@@ -14,12 +14,14 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const apiUrl = `${process.env.REACT_APP_API_URL}/auth/register`;
+      // ✅ Ensure REACT_APP_API_URL is set correctly in .env
+      const apiUrl = `${process.env.REACT_APP_API_URL}/api/auth/register`;
       console.log("POSTing to:", apiUrl);
       console.log("Form Data:", form);
 
-      const res = await axios.post(apiUrl, form);
-      console.log("Response:", res.data);
+      const res = await axios.post(apiUrl, form, {
+        withCredentials: true, // 👈 if backend uses credentials/cookies
+      });
 
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('user', JSON.stringify(res.data.user));

@@ -1,8 +1,7 @@
-// === /src/pages/Login.jsx ===
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './Login.css'; // Assuming you have a CSS file for styles
+import './Login.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -15,7 +14,11 @@ const Login = () => {
       const apiUrl = `${process.env.REACT_APP_API_URL}/api/auth/login`;
       console.log("Logging in via:", apiUrl);
 
-      const res = await axios.post(apiUrl, { email, password });
+      const res = await axios.post(
+        apiUrl,
+        { email, password },
+        { withCredentials: true } // 👈 include if using cookies/CORS credentials
+      );
 
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('user', JSON.stringify(res.data.user));
