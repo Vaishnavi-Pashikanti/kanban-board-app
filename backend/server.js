@@ -13,35 +13,35 @@ const taskRoutes = require('./routes/taskRoutes');
 const app = express();
 const server = http.createServer(app);
 
-// ✅ Use CORS for frontend domain (support both local and production)
+// ✅ Corrected: Vercel domain added to CORS
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://kanban-board-app-opal.vercel.app'
+];
+
 app.use(cors({
-  origin: [
-    'http://localhost:3000',
-    'https://your-frontend.vercel.app', // 👈 update to your real frontend URL on Vercel
-  ],
+  origin: allowedOrigins,
   credentials: true
 }));
+
 app.use(express.json());
 
-// ✅ Initialize Socket.IO
+// ✅ Updated Socket.IO with same CORS origin
 const io = new Server(server, {
   cors: {
-    origin: [
-      'http://localhost:3000',
-      'https://kanban-board-app-opal.vercel.app', // 👈 update to your real frontend URL
-    ],
+    origin: allowedOrigins,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
   }
 });
 
-// ✅ Make io available inside routes
+// ✅ Attach io to req
 app.use((req, res, next) => {
   req.io = io;
   next();
 });
 
-// ✅ Socket.IO listeners
+// ✅ Socket.IO connection
 io.on('connection', (socket) => {
   console.log(`⚡ Client connected: ${socket.id}`);
 
@@ -52,9 +52,9 @@ io.on('connection', (socket) => {
 
 // ✅ Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/tasks', taskRoutes); // e.g. task updates should emit io events
+app.use('/api/tasks', taskRoutes);
 
-// ✅ Start server after Mongo connection
+// ✅ Mongo + Server start
 const PORT = process.env.PORT || 5000;
 
 mongoose
