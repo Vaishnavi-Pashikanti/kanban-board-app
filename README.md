@@ -1,3 +1,12 @@
+ Include a detailed README.md with:
+ ▪ Project overview
+ ▪ Tech stack used
+ ▪ Setup and installation instructions (how to run both backend and frontend 
+locally)
+ ▪ Features list and usage guide
+ ▪ Explanations for your Smart Assign and Conflict Handling logic
+ ▪ Link to your deployed live app and demo video
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -89,9 +98,9 @@ A collaborative task management tool with real-time updates, smart assignment lo
 
 ## 🚀 Live Demo
 
-🔗 [Frontend on Vercel](https://your-vercel-url.vercel.app)  
-🔗 [Backend on Railway](https://your-railway-url.uprail.app)  
-🎥 [Demo Video](https://your-demo-video-link)
+🔗 [Frontend on Vercel](https://kanban-board-app-opal.vercel.app/)  
+🔗 [Backend on Railway](https://kanban-board-app-eii7.onrender.com)  
+🎥 [Demo Video](https://drive.google.com/file/d/1dkXx8Kn9RWkDm_vb3Vkw9Pqrxi34vYXZ/view?usp=sharing)
 
 ---
 
@@ -100,6 +109,9 @@ A collaborative task management tool with real-time updates, smart assignment lo
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/kanban-board-app.git
+git clone https://github.com/Vaishnavi-Pashikanti/kanban-board-app
 cd kanban-board-app
+
+
+
 
