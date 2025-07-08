@@ -1,81 +1,73 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
+const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const http = require('http');
 const { Server } = require('socket.io');
 
 dotenv.config();
 
-const authRoutes = require('./routes/auth');
-const taskRoutes = require('./routes/taskRoutes');
-
 const app = express();
 const server = http.createServer(app);
 
-// ✅ Allowed origins for frontend (both local & deployed)
+// ✅ Allowed frontend URLs
 const allowedOrigins = [
   'http://localhost:3000',
-  'https://kanban-board-app-opal.vercel.app' // ✅ deployed frontend
+  'https://kanban-board-app-opal.vercel.app'
 ];
 
-// ✅ Middleware - CORS for REST API
+// ✅ CORS middleware
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true
+  origin: allowedOrigins,
+  credentials: true,
 }));
-
 app.use(express.json());
 
-// ✅ Socket.IO setup with CORS
+// ✅ Setup Socket.IO server with CORS
 const io = new Server(server, {
   cors: {
     origin: allowedOrigins,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true
+    credentials: true,
   }
 });
 
-// ✅ Attach Socket.IO instance to every request
+// ✅ Attach io to requests
 app.use((req, res, next) => {
   req.io = io;
   next();
 });
 
-// ✅ Handle WebSocket connections
+// ✅ WebSocket connection handler
 io.on('connection', (socket) => {
-  console.log(`⚡ Client connected: ${socket.id}`);
-
+  console.log(`🟢 WebSocket connected: ${socket.id}`);
   socket.on('disconnect', () => {
-    console.log(`🔌 Client disconnected: ${socket.id}`);
+    console.log(`🔴 WebSocket disconnected: ${socket.id}`);
   });
 });
 
-// ✅ Routes
+// ✅ Sample route to test server
+app.get('/', (req, res) => {
+  res.send('Kanban backend is running...');
+});
+
+// ✅ Your routes
+const authRoutes = require('./routes/auth');
+const taskRoutes = require('./routes/taskRoutes');
+
 app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
 
-// ✅ Start server after successful MongoDB connection
+// ✅ Connect to MongoDB and start server
 const PORT = process.env.PORT || 5000;
-
-mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
-  .then(() => {
-    console.log('✅ MongoDB connected');
-    server.listen(PORT, () =>
-      console.log(`🚀 Server running on http://localhost:${PORT}`)
-    );
-  })
-  .catch((err) => {
-    console.error('❌ MongoDB connection error:', err.message);
-    process.exit(1);
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(() => {
+  console.log('✅ MongoDB connected');
+  server.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
   });
+}).catch(err => {
+  console.error('❌ Mongo connection error:', err.message);
+});
