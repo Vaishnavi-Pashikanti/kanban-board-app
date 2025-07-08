@@ -27,6 +27,8 @@ app.use(cors({
   },
   credentials: true
 }));
+app.use(express.json()); // ✅ This parses incoming JSON payloads
+
 // ✅ Setup Socket.IO server with CORS
 const io = new Server(server, {
   cors: {
@@ -61,6 +63,7 @@ const taskRoutes = require('./routes/taskRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
+
 
 // ✅ Connect to MongoDB and start server
 const PORT = process.env.PORT || 5000;
