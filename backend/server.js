@@ -28,7 +28,7 @@ const io = new Server(server, {
   cors: {
     origin: [
       'http://localhost:3000',
-      'https://your-frontend.vercel.app', // 👈 update to your real frontend URL
+      'https://kanban-board-app-opal.vercel.app', // 👈 update to your real frontend URL
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
