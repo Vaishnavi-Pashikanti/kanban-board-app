@@ -25,7 +25,7 @@ const Register = () => {
 
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('user', JSON.stringify(res.data.user));
-      navigate('/dashboard');
+      navigate('/user/dashboard');
     } catch (err) {
       console.error("Registration error:", err.response || err);
       alert(err.response?.data?.message || 'Registration failed');
