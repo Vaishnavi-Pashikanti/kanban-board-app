@@ -13,20 +13,22 @@ const taskRoutes = require('./routes/taskRoutes');
 const app = express();
 const server = http.createServer(app);
 
-// ✅ Corrected: Vercel domain added to CORS
+// ✅ Allowed origins for frontend (both local & deployed)
 const allowedOrigins = [
   'http://localhost:3000',
-  'https://kanban-board-app-opal.vercel.app'
+  'https://kanban-board-app-opal.vercel.app' // ✅ deployed frontend
 ];
 
+// ✅ Middleware - CORS for REST API
 app.use(cors({
   origin: allowedOrigins,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
 
 app.use(express.json());
 
-// ✅ Updated Socket.IO with same CORS origin
+// ✅ Socket.IO setup with CORS
 const io = new Server(server, {
   cors: {
     origin: allowedOrigins,
@@ -35,13 +37,13 @@ const io = new Server(server, {
   }
 });
 
-// ✅ Attach io to req
+// ✅ Attach Socket.IO instance to every request
 app.use((req, res, next) => {
   req.io = io;
   next();
 });
 
-// ✅ Socket.IO connection
+// ✅ Handle WebSocket connections
 io.on('connection', (socket) => {
   console.log(`⚡ Client connected: ${socket.id}`);
 
@@ -54,7 +56,7 @@ io.on('connection', (socket) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
 
-// ✅ Mongo + Server start
+// ✅ Start server after successful MongoDB connection
 const PORT = process.env.PORT || 5000;
 
 mongoose
